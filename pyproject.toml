@@ -1,0 +1,15 @@
+[tool.poetry]
+name = "lesson-11-one-more-probe"
+version = "0.1.0"
+description = ""
+authors = ["Oleksii Latypov <oleksii.latypov.la@gmail.com>"]
+readme = "README.md"
+packages = [{include = "lesson_11_one_more_probe"}]
+
+[tool.poetry.dependencies]
+python = "^3.10"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
