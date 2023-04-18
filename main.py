@@ -98,6 +98,18 @@ class PetModel(BaseModel):
     owner_id: int = Field(gt=1)
 
 
+class ResponsePet(BaseModel):
+    id: int = 1
+    nickname: str
+    age: int
+    vaccinated: bool
+    description: str
+    owner: ResponseOwner
+
+    class Config:
+        orm_mode = True
+
+
 @app.get('/cats', response_model=List[PetModel], tags=['cats'])
 async def get_cats(limit: int = Query(10, le=1000), offset: int = 0, db: Session = Depends(get_db)):
     cats = db.query(Cat).limit(limit).offset(offset).all()
@@ -113,8 +125,8 @@ async def get_cat(cat_id: int, db: Session = Depends(get_db)):
     return cat
 
 
-@app.post('/cats', response_model=PetModel, tags=['cats'])
-async def create_owners(body: PetModel, db: Session = Depends(get_db)):
+@app.post('/cats', response_model=ResponsePet, tags=['cats'])
+async def create_cat(body: PetModel, db: Session = Depends(get_db)):
     cat = PetModel(**body.dict())  # email=body.email .... body is an instance of OwnerModel
     db.add(cat)
     db.commit()
